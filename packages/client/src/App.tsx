@@ -48,16 +48,34 @@ export default function App() {
   }
 
   async function hapusData(nim: string) {
-    const result = await fetch('/api/delete-mahasiswa/' + nim, {
-      method: 'DELETE',
+    Swal.fire({
+      title: 'Sedang memproses',
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+      allowEnterKey: false,
+      showConfirmButton: false,
+      didOpen: async() => {
+        Swal.showLoading(Swal.getDenyButton())
+        try {
+
+          const result = await fetch('/api/delete-mahasiswa/' + nim, {
+            method: 'DELETE',
+          })
+          const json = await result.json()
+          if (!result.ok) {
+            Swal.fire('Gagal menghapus', json.msg, 'error')
+            return
+          }
+          Swal.fire('Berhasil menghapus', '', 'success')
+          getData()
+        }catch(err) {
+          Swal.fire("Server Error", "" , "error")
+        }
+        return
+      },
     })
-    const json = await result.json()
-    if (!result.ok) {
-      Swal.fire('Gagal menghapus', json.msg, 'error')
-      return
-    }
-    Swal.fire('Berhasil menghapus', '', 'success')
-    getData()
+
+    
   }
   return (
     <>
@@ -125,17 +143,28 @@ export default function App() {
                 {'<'}
               </p>
               <FloatingLabel controlId="floatingInput" label="Halaman" className="mb-3">
-                <Form.Control type="number" min={0} minLength={1} max={maxPage} onChange={(ev) => {
-                  const ind = parseInt(ev.target.value)-1
+                <Form.Control type="number" min={0} minLength={1} max={maxPage} onKeyDown={(ev) => {
+                  console.log(ev.key)
+                  if(ev.key != "Enter") {
+                    return
+                  }
+
+                  const ind = parseInt(ev.currentTarget.value)-1
                   console.log(ind)
                   if(isNaN(ind)) {
+                    // @ts-ignore
+                    ev.currentTarget.value = page+1
                     return
                   }
                   if(ind >= 0 && ind <= maxPage) {
                     setPage(ind)
+                    // @ts-ignore
+                    ev.currentTarget.value = ind+1
                     return
                   }
-                }} value={page+1} placeholder="Halaman" />
+                  // @ts-ignore
+                  ev.currentTarget.value = page+1
+                }}  placeholder="Halaman" />
               </FloatingLabel>
                 <p>/{maxPage}</p>
               <p

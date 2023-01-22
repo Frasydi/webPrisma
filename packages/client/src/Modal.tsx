@@ -1,65 +1,119 @@
 import { FormEvent, useState } from 'react'
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Swal from 'sweetalert2';
-export default function Modal({ active, setactive, getData, selectNim, setSelNim }: { active: boolean; setactive: any, getData:any, selectNim:string, setSelNim : any }) {
+import FloatingLabel from 'react-bootstrap/FloatingLabel'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
+import Swal from 'sweetalert2'
+export default function Modal({
+  active,
+  setactive,
+  getData,
+  selectNim,
+  setSelNim,
+}: {
+  active: boolean
+  setactive: any
+  getData: any
+  selectNim: string
+  setSelNim: any
+}) {
   const [preExit, setPreExit] = useState(false)
-  async function edit(data:any) {
-    const fet = await fetch("/api/update-mahasiswa/"+selectNim, {
-        method : "PUT",
-        headers : {
-            "Content-Type" : "application/json"
-        },
-        body : JSON.stringify(data),
-    })
-    const json = await fet.json()
-    if(!fet.ok) {
-        Swal.fire("Gagal Mengedit", json.msg, "error")
-        return
-    }
-    Swal.fire("Berhasil mengedit", "","success")
-    getData()
-  }
-   function handleSubmit(ev:FormEvent) {
-    ev.preventDefault()
-    const forms =  ["nim","nama","kelas","nama_mk","nilai_mutu","semester_mahasiswa","sks_matkul","tahun_akademik"]
-    const json :any= {}
-    forms.forEach((el,ind) => {
-        // @ts-ignore
-        json[el] = ev.target[ind].value
-        // @ts-ignore
-        ev.target[ind].value = ""
+  async function edit(data: any) {
+    Swal.fire({
+      title: 'Sedang memproses',
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+      allowEnterKey: false,
+      showConfirmButton: false,
+      didOpen: async() => {
+        Swal.showLoading(Swal.getDenyButton())
+        try {
 
-    }) 
-    if(selectNim == null) {
-        tambah(json)
-        setSelNim(null)
+          const fet = await fetch('/api/update-mahasiswa/' + selectNim, {
+            method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        })
+        const json = await fet.json()
+        if (!fet.ok) {
+          Swal.fire('Gagal Mengedit', json.msg, 'error')
+          return
+        }
+        
+        Swal.fire('Berhasil mengedit', '', 'success')
+        getData()
+      }catch(err) {
+          Swal.fire('Server Error', "", 'error')
+
+        }
         return
+      },
+    })
+    
+  }
+  function handleSubmit(ev: FormEvent) {
+    ev.preventDefault()
+    const forms = [
+      'nim',
+      'nama',
+      'kelas',
+      'nama_mk',
+      'nilai_mutu',
+      'semester_mahasiswa',
+      'sks_matkul',
+      'tahun_akademik',
+    ]
+    const json: any = {}
+    forms.forEach((el, ind) => {
+      // @ts-ignore
+      json[el] = ev.target[ind].value
+      // @ts-ignore
+      ev.target[ind].value = ''
+    })
+    if (selectNim == null) {
+      tambah(json)
+      setSelNim(null)
+      return
     }
     edit(json)
     setSelNim(null)
-    }
-    
-   
+  }
 
-    async function tambah(data:any) {
+  async function tambah(data: any) {
+    Swal.fire({
+      title: 'Sedang memproses',
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+      allowEnterKey: false,
+      showConfirmButton: false,
+      didOpen: async() => {
+        Swal.showLoading(Swal.getDenyButton())
+        try {
 
-        const fet = await fetch("/api/tambah-mahasiswa", {
-            method : "POST",
-            headers : {
-                "Content-Type" : "application/json"
-            },
-            body : JSON.stringify(data)
+        const fet = await fetch('/api/tambah-mahasiswa', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
         })
         const Data = await fet.json()
-        if(!fet.ok) {
-            Swal.fire("Gagal Menambah", Data.msg, "error")
-            return
+        if (!fet.ok) {
+          Swal.fire('Gagal Menambah', Data.msg, 'error')
+          return
         }
-        Swal.fire("Berhasil menambah", "","success")
+        Swal.fire('Berhasil menambah', '', 'success')
         getData()
-    }
+      }catch(err) {
+        Swal.fire('Server Error', "", 'error')
+
+      }
+
+        return
+      },
+    })
+  }
   return (
     <>
       <div className={`modal ${active ? 'active' : ''} ${preExit ? 'preexit' : ''}`}>
@@ -87,9 +141,11 @@ export default function Modal({ active, setactive, getData, selectNim, setSelNim
               </div>
             </div>
             <div className="modalContent">
-              <form onSubmit={(ev) => {
-                handleSubmit(ev)
-              }}>
+              <form
+                onSubmit={(ev) => {
+                  handleSubmit(ev)
+                }}
+              >
                 <FloatingLabel controlId="NIM" label="NIM" className="mb-3">
                   <Form.Control type="text" placeholder="NIM" />
                 </FloatingLabel>
@@ -114,7 +170,9 @@ export default function Modal({ active, setactive, getData, selectNim, setSelNim
                 <FloatingLabel controlId="TahunAkademik" label="Tahun Akademik">
                   <Form.Control type="text" placeholder="Tahun Akademik" />
                 </FloatingLabel>
-                <Button type='submit' variant='primary'>{selectNim != null ? "Edit" : "Tambah"}</Button>
+                <Button type="submit" variant="primary">
+                  {selectNim != null ? 'Edit' : 'Tambah'}
+                </Button>
               </form>
             </div>
           </div>

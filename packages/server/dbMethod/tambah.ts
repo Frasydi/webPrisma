@@ -12,6 +12,13 @@ export default async function tambahMahasiswa(newMahasiswa : any) {
             msg : "Nim tidak ada"
         }
     }
+    if(nim.trim().length == 0) {
+        return {
+            status : false,
+            code : 400,
+            msg : "Nim tidak ada"
+        }
+    }
     try {
         const result = await prisma.mahasiswa.create({
             data : newMahasiswa
