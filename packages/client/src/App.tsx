@@ -125,16 +125,23 @@ export default function App() {
                 {'<'}
               </p>
               <FloatingLabel controlId="floatingInput" label="Halaman" className="mb-3">
-                <Form.Control type="number" min={0} minLength={1} max={maxPage} onChange={(ev) => {
-                  const ind = parseInt(ev.target.value)-1
+                <Form.Control type="number" min={1} minLength={1} max={maxPage} onKeyDown={(ev) => {
+                  console.log(ev)
+                  if(ev.key != "ENTER") {
+                    return
+                  } 
+                  const ind = parseInt(ev.currentTarget.value)-1
                   console.log(ind)
                   if(isNaN(ind)) {
+                    ev.currentTarget.value = page+""
                     return
                   }
                   if(ind >= 0 && ind <= maxPage) {
                     setPage(ind)
                     return
                   }
+                  ev.currentTarget.value = page+""
+
                 }} value={page+1} placeholder="Halaman" />
               </FloatingLabel>
                 <p>/{maxPage}</p>
