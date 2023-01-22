@@ -1,70 +1,186 @@
-:root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+body,
+html {
+  margin: 0;
+  padding: 0;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+* {
+  font-family: 'Poppins', sans-serif;
 }
 
 body {
-  margin: 0;
-  display: flex;
+  background-color: #8DCBE6;
+}
+
+nav {
+  position: fixed;
+  width: 100%;
+  height: 10vh;
+  display: grid;
   place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  grid-template-columns: 1fr;
+  z-index: 1000;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+nav>.navBox {
+  min-width: 90%;
+  height: 90%;
+  background-color: whitesmoke;
+  border-radius: 1rem;
+  box-shadow: 1px 1px 5px 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+.navHeader {
+  font-weight: bolder;
+  font-size: xx-large;
+}
+
+.navBox>button {
+  padding: .5rem 2rem;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: none;
+  border: 1px solid rgba(0, 0, 0, 0.6);
+  font-weight: bolder;
+  background-color: transparent;
+  color: black;
+  text-shadow: 1px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 1rem;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.navBox>button:hover {
+  color: whitesmoke;
+  background-color: #8DCBE6;
+
 }
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  place-items: center;
+}
+
+.modalBox {
+  position: relative;
+
+  border-radius: 1rem;
+  width: 90%;
+  min-height: 90%;
+  background-color: whitesmoke;
+  display: grid;
+  place-items: center;
+  grid-template-columns: 1fr;
+}
+
+.modal.active {
+  display: grid;
+}
+
+.modal.active>.modalBox {
+
+  animation: slideInLeft 1s;
+}
+
+.modal.preexit>.modalBox {
+  animation: slideOutLeft 1s forwards;
+}
+
+.modalContent {
+  min-width: 95%;
+  min-height: 90%;
+
+}
+
+.modalHead {
+  font-size: x-large;
+  font-weight: bolder;
+  text-align: center;
+}
+
+.modalExit {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.modalExit>span {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  translate: -50% 0;
+  width: 40px;
+  height: 5px;
+  background-color: red;
+  border-radius: 1rem;
+}
+
+.modalExit>span:first-child {
+  transform: rotate(45deg);
+}
+
+.modalExit>span:last-child {
+  transform: rotate(-45deg);
+}
+
+body:has(.modal.active) {
+  overflow-y: hidden;
+}
+
+main {
+  width: 90%;
+  min-height: 100vh;
+  background-color: whitesmoke;
+  border-radius: 1rem;
+  margin: 0 auto;
+}
+
+
+
+tbody {
+  position: relative;
+  width: max-content;
+  height: max-content;
+}
+tbody.loading::after {
+  content: "Loading";
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(2px);
+  top : 0;
+  left : 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: whitesmoke;
+  font-weight: bolder;
+  font-size: xx-large;
+}
+
+.pagination {
+  font-weight: bolder;
+  font-size: x-large;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pageArrow {
+  cursor: pointer;
+  user-select: none;
+}
+
