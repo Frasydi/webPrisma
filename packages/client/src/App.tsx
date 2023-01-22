@@ -73,7 +73,13 @@ export default function App() {
           </button>
         </div>
       </nav>
-      <Modal setSelNim={setSelNim} selectNim={selNIM as string} getData={getData} active={isInput} setactive={setIsInput} />
+      <Modal
+        setSelNim={setSelNim}
+        selectNim={selNIM as string}
+        getData={getData}
+        active={isInput}
+        setactive={setIsInput}
+      />
       <div style={{ height: '20vh' }}></div>
       <main>
         <div style={{ height: '3rem' }}></div>
@@ -118,9 +124,20 @@ export default function App() {
               >
                 {'<'}
               </p>
-              <p>
-                {page + 1}/{maxPage}
-              </p>
+              <FloatingLabel controlId="floatingInput" label="Halaman" className="mb-3">
+                <Form.Control type="number" min={0} minLength={1} max={maxPage} onChange={(ev) => {
+                  const ind = parseInt(ev.target.value)-1
+                  console.log(ind)
+                  if(isNaN(ind)) {
+                    return
+                  }
+                  if(ind >= 0 && ind <= maxPage) {
+                    setPage(ind)
+                    return
+                  }
+                }} value={page+1} placeholder="Halaman" />
+              </FloatingLabel>
+                <p>/{maxPage}</p>
               <p
                 className="pageArrow"
                 onClick={() => {
