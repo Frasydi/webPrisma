@@ -28,6 +28,8 @@ export default function App() {
   async function getData() {
     setLoading(true)
     const fet = await fetch(`/api/search?search=${search}&page=${page}&limit=${limit}`)
+    //@ts-ignore
+    document.getElementById("searchPage").value = page + 1
     const json = await fet.json()
     setLoading(false)
     console.log(json)
@@ -137,25 +139,30 @@ export default function App() {
                 onClick={() => {
                   if (page > 0) {
                     setPage((prev) => prev - 1)
+          
                   }
                 }}
               >
                 {'<'}
               </p>
-              <FloatingLabel controlId="floatingInput" label="" className="mb-3">
-                <Form.Control type="number" min={0} minLength={1} max={maxPage} onChange={(ev) => {
-                  const ind = parseInt(ev.target.value)-1
+              <FloatingLabel controlId="searchPage" label="" className="mb-3">
+                <Form.Control type="number" min={0} minLength={1} max={maxPage} onKeyDown={(ev) => {
+                  if(ev.key != "Enter") return
+
+                  const ind = parseInt(ev.currentTarget.value)-1
                   console.log(ind)
                   if(isNaN(ind)) {
+                    ev.currentTarget.value = page + 1 + ""
                     return
                   }
                   if(ind >= 0 && ind <= maxPage) {
                     setPage(ind)
-                    // @ts-ignore
-                    ev.currentTarget.value = ind+1
+                    
                     return
                   }
-                }} value={page+1} placeholder="Halaman" />
+                  ev.currentTarget.value = page + 1 + ""
+                  
+                }} placeholder="Halaman" />
               </FloatingLabel>
                 <p>/{maxPage}</p>
               <p
@@ -163,6 +170,10 @@ export default function App() {
                 onClick={() => {
                   if (page < maxPage - 1) {
                     setPage((prev) => prev + 1)
+                    //@ts-ignore
+                    console.log(document.getElementById("searchPage").value)
+                    //@ts-ignore
+                    document.getElementById("searchPage").value = page+2+""
                   }
                 }}
                 style={{ marginLeft: '2rem' }}

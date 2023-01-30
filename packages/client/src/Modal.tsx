@@ -63,6 +63,7 @@ export default function Modal({
       'semester_mahasiswa',
       'sks_matkul',
       'tahun_akademik',
+      'ips',
       'ipk'
     ]
     const json: any = {}
@@ -170,6 +171,9 @@ export default function Modal({
                 </FloatingLabel>
                 <FloatingLabel controlId="TahunAkademik" label="Tahun Akademik">
                   <Form.Control type="text" placeholder="Tahun Akademik" />
+                </FloatingLabel>
+                <FloatingLabel controlId="ips" label="IPS">
+                  <Form.Control type="text" placeholder="IPS" />
                 </FloatingLabel>
                 <FloatingLabel controlId="ipk" label="IPK">
                   <Form.Control type="text" placeholder="IPK" />
