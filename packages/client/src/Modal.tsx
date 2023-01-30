@@ -63,6 +63,7 @@ export default function Modal({
       'semester_mahasiswa',
       'sks_matkul',
       'tahun_akademik',
+      'ipk'
     ]
     const json: any = {}
     forms.forEach((el, ind) => {
@@ -169,6 +170,9 @@ export default function Modal({
                 </FloatingLabel>
                 <FloatingLabel controlId="TahunAkademik" label="Tahun Akademik">
                   <Form.Control type="text" placeholder="Tahun Akademik" />
+                </FloatingLabel>
+                <FloatingLabel controlId="ipk" label="IPK">
+                  <Form.Control type="text" placeholder="IPK" />
                 </FloatingLabel>
                 <Button type="submit" variant="primary">
                   {selectNim != null ? 'Edit' : 'Tambah'}

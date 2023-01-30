@@ -26,6 +26,8 @@ export default function TableS({
           <th>Semester</th>
           <th>SKS</th>
           <th>Tahun Akademik</th>
+          <th>IPK</th>
+
           <th>Aksi</th>
         </thead>
         <tbody className={`${isLoading ? 'loading' : ''}`}>
@@ -40,11 +42,13 @@ export default function TableS({
               <td>{el.semester_mahasiswa}</td>
               <td>{el.sks_matkul}</td>
               <td>{el.tahun_akademik}</td>
+              <td>{el.ipk}</td>
+
               <td>
                 <ButtonGroup aria-label="Basic example">
                   <Button variant="success" onClick={() => {
                     const form = document.querySelector("form")
-                    const forms =  ["nim","nama","kelas","nama_mk","nilai_mutu","semester_mahasiswa","sks_matkul","tahun_akademik"]
+                    const forms =  ["nim","nama","kelas","nama_mk","nilai_mutu","semester_mahasiswa","sks_matkul","tahun_akademik", "ipk"]
                     forms.forEach((el2,ind)=> {
                         //@ts-ignore
                         form.elements[ind].value = el[el2]
