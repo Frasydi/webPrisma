@@ -142,7 +142,7 @@ export default function App() {
               >
                 {'<'}
               </p>
-              <FloatingLabel controlId="floatingInput" label="Halaman" className="mb-3">
+              <FloatingLabel controlId="floatingInput" label="" className="mb-3">
                 <Form.Control type="number" min={0} minLength={1} max={maxPage} onChange={(ev) => {
                   const ind = parseInt(ev.target.value)-1
                   console.log(ind)
