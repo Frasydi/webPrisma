@@ -81,7 +81,9 @@ export default function Modal({
     edit(json)
     setSelNim(null)
   }
-
+  function removeEdit(){
+    
+  }
   async function tambah(data: any) {
     Swal.fire({
       title: 'Sedang memproses',
@@ -125,6 +127,7 @@ export default function Modal({
             if (!preExit) {
               return
             }
+
             setactive(false)
             setPreExit(false)
           }}
